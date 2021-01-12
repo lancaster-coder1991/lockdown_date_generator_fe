@@ -2,6 +2,7 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import "./header.css"
+import Dropdown from "./dropdown"
 
 const Header = ({ siteTitle }) => (
   <header
@@ -28,6 +29,7 @@ const Header = ({ siteTitle }) => (
           {siteTitle}
         </Link>
       </h1>
+      <Dropdown />
     </div>
   </header>
 )
