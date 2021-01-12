@@ -3,8 +3,6 @@ import PropTypes from "prop-types"
 import React from "react"
 import styles from "./header.module.css"
 
-console.log(styles)
-
 const Header = ({ siteTitle }) => (
   <header className={styles.header}>
     <div className={styles.inner}>
