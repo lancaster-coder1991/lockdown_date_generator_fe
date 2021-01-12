@@ -32,7 +32,6 @@ const Footer = () => {
 }
 
 const Layout = ({ children }) => {
-  console.table(children)
   return (
     <>
       <Header siteTitle="Gatsby Default" />
