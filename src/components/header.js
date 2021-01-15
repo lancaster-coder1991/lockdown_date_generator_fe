@@ -2,7 +2,6 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import styled from "styled-components"
-import styles from "./header.module.css"
 
 const SiteHeader = styled.header`
   background: rebeccapurple;
@@ -17,7 +16,7 @@ const Inner = styled.div`
 const Heading = styled.h1`
   margin: 0;
 `
-//Example os using styled components on another component
+//Example of using styled components on another component
 const HomeLink = styled(Link)`
   color: white;
   text-decoration: none;
@@ -27,9 +26,7 @@ const Header = ({ siteTitle }) => (
   <SiteHeader>
     <Inner>
       <Heading>
-        <HomeLink className={styles.Homelink} to="/">
-          {siteTitle}
-        </HomeLink>
+        <HomeLink to="/">{siteTitle}</HomeLink>
       </Heading>
     </Inner>
   </SiteHeader>
