@@ -2,7 +2,6 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import styled from "styled-components"
-import styles from "./header.module.css"
 
 const SiteHeader = styled.header`
   background: rebeccapurple;
@@ -27,9 +26,7 @@ const Header = ({ siteTitle }) => (
   <SiteHeader>
     <Inner>
       <Heading>
-        <HomeLink className={styles.Homelink} to="/">
-          {siteTitle}
-        </HomeLink>
+        <HomeLink to="/">{siteTitle}</HomeLink>
       </Heading>
     </Inner>
   </SiteHeader>

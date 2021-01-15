@@ -1,0 +1,3 @@
+-Layout Component containing components to include on each page (see default gatsby app created on new project for example)
+-Styled components and / or css modules (see past branches for examples of each)7
+-GraphQL
