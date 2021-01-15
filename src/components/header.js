@@ -8,16 +8,30 @@ const SiteHeader = styled.header`
   background: rebeccapurple;
   margin-bottom: 1.45rem;
 `
+const Inner = styled.div`
+  margin: 0 auto;
+  max-width: 960;
+  padding: 1.45rem 1.0875rem;
+`
+
+const Heading = styled.h1`
+  margin: 0;
+`
+//Example os using styled components on another component
+const HomeLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+`
 
 const Header = ({ siteTitle }) => (
-  <SiteHeader className={styles.header}>
-    <div className={styles.inner}>
-      <h1 className={styles.heading}>
-        <Link className={styles.link} to="/">
+  <SiteHeader>
+    <Inner>
+      <Heading>
+        <HomeLink className={styles.Homelink} to="/">
           {siteTitle}
-        </Link>
-      </h1>
-    </div>
+        </HomeLink>
+      </Heading>
+    </Inner>
   </SiteHeader>
 )
 
