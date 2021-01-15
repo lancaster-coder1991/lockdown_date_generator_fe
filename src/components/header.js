@@ -1,10 +1,16 @@
 import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
+import styled from "styled-components"
 import styles from "./header.module.css"
 
+const SiteHeader = styled.header`
+  background: rebeccapurple;
+  margin-bottom: 1.45rem;
+`
+
 const Header = ({ siteTitle }) => (
-  <header className={styles.header}>
+  <SiteHeader className={styles.header}>
     <div className={styles.inner}>
       <h1 className={styles.heading}>
         <Link className={styles.link} to="/">
@@ -12,7 +18,7 @@ const Header = ({ siteTitle }) => (
         </Link>
       </h1>
     </div>
-  </header>
+  </SiteHeader>
 )
 
 Header.propTypes = {
