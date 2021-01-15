@@ -1,4 +1,4 @@
-import { Link } from "gatsby"
+import { Link, useStaticQuery } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import styled from "styled-components"
@@ -26,7 +26,7 @@ const Header = ({ siteTitle }) => (
   <SiteHeader>
     <Inner>
       <Heading>
-        <HomeLink to="/">{siteTitle}</HomeLink>
+        <HomeLink to="/">{jsonData}</HomeLink>
       </Heading>
     </Inner>
   </SiteHeader>
