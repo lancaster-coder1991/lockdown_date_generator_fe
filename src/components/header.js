@@ -22,15 +22,37 @@ const HomeLink = styled(Link)`
   text-decoration: none;
 `
 
-const Header = ({ siteTitle }) => (
-  <SiteHeader>
-    <Inner>
-      <Heading>
-        <HomeLink to="/">{jsonData}</HomeLink>
-      </Heading>
-    </Inner>
-  </SiteHeader>
-)
+const Header = ({ siteTitle }) => {
+  const {
+    allProjectsJson: { nodes },
+  } = useStaticQuery(graphql`
+    {
+      allProjectsJson {
+        nodes {
+          name
+          description
+          link {
+            href
+            text
+          }
+        }
+      }
+    }
+  `)
+  console.log(nodes)
+  return (
+    <SiteHeader>
+      <Inner>
+        <Heading>
+          <HomeLink to="/">{siteTitle}</HomeLink>
+          {nodes.map(node => (
+            <div>{node.name}</div>
+          ))}
+        </Heading>
+      </Inner>
+    </SiteHeader>
+  )
+}
 
 Header.propTypes = {
   siteTitle: PropTypes.string,
