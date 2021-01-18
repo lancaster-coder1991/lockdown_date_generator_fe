@@ -1,33 +1,54 @@
-import React from "react"
+import React, { Component } from "react"
 import { Link } from "gatsby"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
+import { getDates } from "../axios"
 
-const wrapperStyles = {
-  maxWidth: `300px`,
-  marginBottom: `1.45rem`,
-  lineHeight: 1.5,
+const homeParaStyles = {
+  textAlign: `center`,
 }
 
 const HomeTitle = styled.h2`
   text-align: center;
 `
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <HomeTitle>Welcome!</HomeTitle>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={wrapperStyles}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
-  </Layout>
-)
+class IndexPage extends Component {
+  state = {
+    dates: [],
+    isLoading: true,
+  }
+
+  componentDidMount() {
+    getDates().then(dates => {
+      this.setState({ dates: dates.data.dates, isLoading: false }, () => {
+        console.log(this.state.dates)
+      })
+    })
+  }
+
+  render() {
+    const { isLoading } = this.state
+    return (
+      <Layout>
+        Add conditional function here based on method from this class which
+        generates an is loading message
+        <SEO title="Home" />
+        <HomeTitle>Welcome!</HomeTitle>
+        <p style={homeParaStyles}>
+          Have you been stuck in the house during lockdown with your loved one,
+          friends or family? Have you been stuck for ideas on how to pass those
+          long nights and weekend days together? If you need inspiration for how
+          to creatively spend your time during lockdown, then look no further!
+          Simply browse the selection below or use our search form to find your
+          perfect date :
+        </p>
+        <Link to="/page-2/">Go to page 2</Link> <br />
+        <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
+      </Layout>
+    )
+  }
+}
 
 export default IndexPage
