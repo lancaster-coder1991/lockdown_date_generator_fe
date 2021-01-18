@@ -1,11 +1,12 @@
-import { Link, useStaticQuery } from "gatsby"
+import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import styled from "styled-components"
 
 const SiteHeader = styled.header`
-  background: rebeccapurple;
+  background: #344961;
   margin-bottom: 1.45rem;
+  text-align: center;
 `
 const Inner = styled.div`
   margin: 0 auto;
@@ -16,38 +17,18 @@ const Inner = styled.div`
 const Heading = styled.h1`
   margin: 0;
 `
-//Example os using styled components on another component
+//Example of using styled components on another component
 const HomeLink = styled(Link)`
-  color: white;
   text-decoration: none;
+  color: #99d4c4;
 `
 
 const Header = ({ siteTitle }) => {
-  const {
-    allProjectsJson: { nodes },
-  } = useStaticQuery(graphql`
-    {
-      allProjectsJson {
-        nodes {
-          name
-          description
-          link {
-            href
-            text
-          }
-        }
-      }
-    }
-  `)
-  console.log(nodes)
   return (
     <SiteHeader>
       <Inner>
         <Heading>
           <HomeLink to="/">{siteTitle}</HomeLink>
-          {nodes.map(node => (
-            <div>{node.name}</div>
-          ))}
         </Heading>
       </Inner>
     </SiteHeader>

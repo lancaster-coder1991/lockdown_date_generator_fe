@@ -34,7 +34,7 @@ const Footer = () => {
 const Layout = ({ children }) => {
   return (
     <>
-      <Header siteTitle="Gatsby Default" />
+      <Header siteTitle="Lockdown Date Generator!" />
       <Wrapper>
         <main>{children}</main>
         <Footer />

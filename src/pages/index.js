@@ -1,5 +1,6 @@
 import React from "react"
 import { Link } from "gatsby"
+import styled from "styled-components"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
@@ -11,10 +12,14 @@ const wrapperStyles = {
   lineHeight: 1.5,
 }
 
+const HomeTitle = styled.h2`
+  text-align: center;
+`
+
 const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
-    <h1>Hi people</h1>
+    <HomeTitle>Welcome!</HomeTitle>
     <p>Welcome to your new Gatsby site.</p>
     <p>Now go build something great.</p>
     <div style={wrapperStyles}>
