@@ -29,7 +29,7 @@ const NameSearch = styled.input.attrs({
 })`
   border-radius: 25px;
   font-size: 0.8rem;
-  width: 50%;
+  width: 70%;
   text-align: center;
   margin-bottom: 3%;
 `
@@ -41,7 +41,7 @@ const HomePageLabel = styled.label`
   margin-bottom: 3%;
 `
 
-const HomePageBoxes = styled.input.attrs({
+const HomePageBox = styled.input.attrs({
   type: "checkbox",
 })`
   margin-left: 3%;
@@ -59,24 +59,31 @@ class IndexPage extends Component {
   }
 
   componentDidMount() {
-    getDates().then(dates => {
-      this.setState({ dates: dates.data.dates, isLoading: false }, () => {
-        console.log(this.state.dates)
+    getDates()
+      .then(dates => {
+        this.setState({ dates: dates.data.dates }, () => {
+          console.log(this.state.dates)
+        })
       })
-    })
+      .then(() => {
+        return getTimings()
+      })
+      .then(timings => {
+        this.setState({ timings: timings.data.timings, isLoading: false })
+      })
   }
 
   isLoading = () => {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
-  renderTimingBoxes = () => {
-    getTimings().then(timings => {
-      console.log("timings: ", timings.data.timings)
-      return timings.data.timings.map(timing => {
-        return <HomePageBoxes key={timing.timing_name}></HomePageBoxes>
+  renderSearchBoxes = fieldName => {
+    if (!this.state.isLoading) {
+      return this.state[fieldName].map(field => {
+        const nameColumn = `${fieldName.slice(0, field.length - 1)}_name`
+        return <HomePageBox key={field[nameColumn]} />
       })
-    })
+    }
   }
 
   render() {
@@ -96,15 +103,15 @@ class IndexPage extends Component {
           <NameSearch></NameSearch>
           <HomePageLabel>
             Filter by time of day:
-            {this.renderTimingBoxes()}
+            {this.renderSearchBoxes("timings")}
           </HomePageLabel>
           <HomePageLabel>
             Filter by category:
-            <HomePageBoxes></HomePageBoxes>
-            <HomePageBoxes></HomePageBoxes>
-            <HomePageBoxes></HomePageBoxes>
-            <HomePageBoxes></HomePageBoxes>
-            <HomePageBoxes></HomePageBoxes>
+            <HomePageBox></HomePageBox>
+            <HomePageBox></HomePageBox>
+            <HomePageBox></HomePageBox>
+            <HomePageBox></HomePageBox>
+            <HomePageBox></HomePageBox>
           </HomePageLabel>
         </SearchForm>
         {this.isLoading()}
