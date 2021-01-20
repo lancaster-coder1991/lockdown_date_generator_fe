@@ -28,6 +28,7 @@ const FormSectionHeading = styled.div`
   width: 100%;
   text-align: center;
   font-weight: bold;
+  margin-bottom: 5%;
 `
 
 const NameSearch = styled.input.attrs({
@@ -38,6 +39,7 @@ const NameSearch = styled.input.attrs({
   width: 70%;
   text-align: center;
   margin-bottom: 3%;
+  margin-top: 3%;
 `
 
 const HomePageLabel = styled.label`
@@ -45,13 +47,16 @@ const HomePageLabel = styled.label`
   width: 100%;
   text-align: center;
   margin-bottom: 3%;
+  margin-top: 3%;
+  font-weight: normal;
+  page-break-inside: avoid;
 `
 
 const HomePageBox = styled.input.attrs({
   type: "checkbox",
 })`
   margin-left: 3%;
-  margin-right: 3%;
+  margin-right: 5%;
   border-radius: 50%;
 `
 
@@ -94,13 +99,13 @@ class IndexPage extends Component {
 
   renderSearchBoxes = fieldName => {
     if (!this.state.isLoading) {
-      return this.state[fieldName].map(field => {
+      return this.state[fieldName].map((field, index) => {
         const nameColumn =
           fieldName === "timings" ? "timing_name" : "category_name"
         return (
-          <HomePageLabel>
+          <HomePageLabel htmlFor={index}>
             {field[nameColumn]}
-            <HomePageBox key={field[nameColumn]} />
+            <HomePageBox name={index} key={field[nameColumn]} />
           </HomePageLabel>
         )
       })
@@ -121,11 +126,24 @@ class IndexPage extends Component {
           perfect date :)
         </HomePara>
         <SearchForm>
-          <FormSectionHeading>Filter by Name</FormSectionHeading>
-          <NameSearch></NameSearch>
-
-          {this.renderSearchBoxes("timings")}
-          {this.renderSearchBoxes("categories")}
+          <FormSectionHeading>
+            Filter by Name
+            <NameSearch></NameSearch>
+          </FormSectionHeading>
+          <FormSectionHeading>
+            Filter by Timing
+            <br />
+            <div style={{ marginTop: 7 }}>
+              {this.renderSearchBoxes("timings")}
+            </div>
+          </FormSectionHeading>
+          <FormSectionHeading>
+            Filter by Category
+            <br />
+            <div style={{ marginTop: 7 }}>
+              {this.renderSearchBoxes("categories")}
+            </div>
+          </FormSectionHeading>
         </SearchForm>
         {this.isLoading()}
         <Link to="/page-2/">Go to page 2</Link> <br />
