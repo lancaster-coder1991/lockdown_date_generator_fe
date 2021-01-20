@@ -24,6 +24,12 @@ const SearchForm = styled.form`
   width: 100%;
 `
 
+const FormSectionHeading = styled.div`
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+`
+
 const NameSearch = styled.input.attrs({
   placeholder: "Search by name",
 })`
@@ -89,9 +95,14 @@ class IndexPage extends Component {
   renderSearchBoxes = fieldName => {
     if (!this.state.isLoading) {
       return this.state[fieldName].map(field => {
-        const nameColumn = `${fieldName.slice(0, fieldName.length - 1)}_name`
-        console.log(nameColumn)
-        return <HomePageBox key={field[nameColumn]} />
+        const nameColumn =
+          fieldName === "timings" ? "timing_name" : "category_name"
+        return (
+          <HomePageLabel>
+            {field[nameColumn]}
+            <HomePageBox key={field[nameColumn]} />
+          </HomePageLabel>
+        )
       })
     }
   }
@@ -110,15 +121,11 @@ class IndexPage extends Component {
           perfect date :)
         </HomePara>
         <SearchForm>
+          <FormSectionHeading>Filter by Name</FormSectionHeading>
           <NameSearch></NameSearch>
-          <HomePageLabel>
-            Filter by time of day:
-            {this.renderSearchBoxes("timings")}
-          </HomePageLabel>
-          <HomePageLabel>
-            Filter by category:
-            {this.renderSearchBoxes("categories")}
-          </HomePageLabel>
+
+          {this.renderSearchBoxes("timings")}
+          {this.renderSearchBoxes("categories")}
         </SearchForm>
         {this.isLoading()}
         <Link to="/page-2/">Go to page 2</Link> <br />
