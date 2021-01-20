@@ -4,6 +4,7 @@ import styled from "styled-components"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import Loading from "../components/loading"
 import { getDates } from "../axios"
 
 const homeParaStyles = {
@@ -22,7 +23,7 @@ class IndexPage extends Component {
 
   componentDidMount() {
     getDates().then(dates => {
-      this.setState({ dates: dates.data.dates, isLoading: false }, () => {
+      this.setState({ dates: dates.data.dates, isLoading: true }, () => {
         console.log(this.state.dates)
       })
     })
@@ -31,7 +32,7 @@ class IndexPage extends Component {
   isLoading = () => {
     const { isLoading } = this.state
     if (isLoading) {
-      return <div>Loading</div>
+      return <Loading></Loading>
     }
   }
 
@@ -47,7 +48,7 @@ class IndexPage extends Component {
           long nights and weekend days together? If you need inspiration for how
           to creatively spend your time during lockdown, then look no further!
           Simply browse the selection below or use our search form to find your
-          perfect date :
+          perfect date :)
         </p>
         <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
