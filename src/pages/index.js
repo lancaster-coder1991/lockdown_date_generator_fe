@@ -6,18 +6,36 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Loading from "../components/loading"
 import { getDates } from "../axios"
+import "../components/index.css"
 
-const homeParaStyles = {
-  textAlign: `center`,
-}
+const HomePara = styled.p`
+  text-align: center;
+`
 
 const HomeTitle = styled.h2`
+  text-align: center;
+`
+
+const SearchForm = styled.form`
+  display: flex;
+  justify-content: space-evenly;
+`
+
+const NameSearch = styled.input.attrs({
+  placeholder: "Search by name",
+})`
+  border-radius: 25px;
+  font-size: 0.8rem;
+  width: 50%;
   text-align: center;
 `
 
 class IndexPage extends Component {
   state = {
     dates: [],
+    searchName: "",
+    searchTimings: [],
+    searchCategories: [],
     isLoading: true,
   }
 
@@ -30,10 +48,7 @@ class IndexPage extends Component {
   }
 
   isLoading = () => {
-    const { isLoading } = this.state
-    if (isLoading) {
-      return <Loading></Loading>
-    }
+    if (this.state.isLoading) return <Loading></Loading>
   }
 
   render() {
@@ -41,15 +56,23 @@ class IndexPage extends Component {
       <Layout>
         <SEO title="Home" />
         <HomeTitle>Welcome!</HomeTitle>
-        <p style={homeParaStyles}>
+        <HomePara>
           Have you been stuck in the house during lockdown with your loved one,
           friends or family? Have you been stuck for ideas on how to pass those
           long nights and weekend days together? If you need inspiration for how
           to creatively spend your time during lockdown, then look no further!
           Simply browse the selection below or use our search form to find your
           perfect date :)
-        </p>
+        </HomePara>
         {this.isLoading()}
+        <SearchForm>
+          <NameSearch></NameSearch>
+          <label>
+            <input type="checkbox"></input>
+            <input type="checkbox"></input>
+            <input type="checkbox"></input>
+          </label>
+        </SearchForm>
         <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
       </Layout>
