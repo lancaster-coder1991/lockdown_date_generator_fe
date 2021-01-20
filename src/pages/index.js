@@ -102,11 +102,16 @@ class IndexPage extends Component {
       return this.state[fieldName].map((field, index) => {
         const nameColumn =
           fieldName === "timings" ? "timing_name" : "category_name"
+        const divStyles = {
+          display: "inline-block",
+        }
         return (
-          <HomePageLabel htmlFor={index}>
-            {field[nameColumn]}
-            <HomePageBox name={index} key={field[nameColumn]} />
-          </HomePageLabel>
+          <div style={divStyles}>
+            <HomePageLabel htmlFor={index}>
+              {field[nameColumn]}
+              <HomePageBox name={index} key={field[nameColumn]} />
+            </HomePageLabel>
+          </div>
         )
       })
     }
