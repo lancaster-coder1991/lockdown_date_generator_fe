@@ -23,7 +23,7 @@ class IndexPage extends Component {
 
   componentDidMount() {
     getDates().then(dates => {
-      this.setState({ dates: dates.data.dates, isLoading: true }, () => {
+      this.setState({ dates: dates.data.dates, isLoading: false }, () => {
         console.log(this.state.dates)
       })
     })
@@ -39,7 +39,6 @@ class IndexPage extends Component {
   render() {
     return (
       <Layout>
-        {this.isLoading()}
         <SEO title="Home" />
         <HomeTitle>Welcome!</HomeTitle>
         <p style={homeParaStyles}>
@@ -50,6 +49,7 @@ class IndexPage extends Component {
           Simply browse the selection below or use our search form to find your
           perfect date :)
         </p>
+        {this.isLoading()}
         <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
       </Layout>
