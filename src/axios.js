@@ -11,3 +11,7 @@ export const getDates = () => {
 export const getTimings = () => {
   return instance.get("/timings")
 }
+
+export const getCategories = () => {
+  return instance.get("/categories")
+}
