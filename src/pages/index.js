@@ -28,12 +28,17 @@ class IndexPage extends Component {
     })
   }
 
-  render() {
+  isLoading = () => {
     const { isLoading } = this.state
+    if (isLoading) {
+      return <div>Loading</div>
+    }
+  }
+
+  render() {
     return (
       <Layout>
-        Add conditional function here based on method from this class which
-        generates an is loading message
+        {this.isLoading()}
         <SEO title="Home" />
         <HomeTitle>Welcome!</HomeTitle>
         <p style={homeParaStyles}>
