@@ -8,4 +8,6 @@ export const getDates = () => {
   return instance.get("/dates")
 }
 
-getDates()
+export const getTimings = () => {
+  return instance.get("/timings")
+}

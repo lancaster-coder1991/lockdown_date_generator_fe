@@ -5,7 +5,7 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Loading from "../components/loading"
-import { getDates } from "../axios"
+import { getDates, getTimings } from "../axios"
 import "../components/index.css"
 
 const HomePara = styled.p`
@@ -18,7 +18,10 @@ const HomeTitle = styled.h2`
 
 const SearchForm = styled.form`
   display: flex;
+  flex-direction: column;
   justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
 `
 
 const NameSearch = styled.input.attrs({
@@ -28,6 +31,22 @@ const NameSearch = styled.input.attrs({
   font-size: 0.8rem;
   width: 50%;
   text-align: center;
+  margin-bottom: 3%;
+`
+
+const HomePageLabel = styled.label`
+  font-size: 0.8rem;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 3%;
+`
+
+const HomePageBoxes = styled.input.attrs({
+  type: "checkbox",
+})`
+  margin-left: 3%;
+  margin-right: 3%;
+  border-radius: 50%;
 `
 
 class IndexPage extends Component {
@@ -51,6 +70,15 @@ class IndexPage extends Component {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
+  renderTimingBoxes = () => {
+    getTimings().then(timings => {
+      console.log("timings: ", timings.data.timings)
+      return timings.data.timings.map(timing => {
+        return <HomePageBoxes key={timing.timing_name}></HomePageBoxes>
+      })
+    })
+  }
+
   render() {
     return (
       <Layout>
@@ -64,15 +92,22 @@ class IndexPage extends Component {
           Simply browse the selection below or use our search form to find your
           perfect date :)
         </HomePara>
-        {this.isLoading()}
         <SearchForm>
           <NameSearch></NameSearch>
-          <label>
-            <input type="checkbox"></input>
-            <input type="checkbox"></input>
-            <input type="checkbox"></input>
-          </label>
+          <HomePageLabel>
+            Filter by time of day:
+            {this.renderTimingBoxes()}
+          </HomePageLabel>
+          <HomePageLabel>
+            Filter by category:
+            <HomePageBoxes></HomePageBoxes>
+            <HomePageBoxes></HomePageBoxes>
+            <HomePageBoxes></HomePageBoxes>
+            <HomePageBoxes></HomePageBoxes>
+            <HomePageBoxes></HomePageBoxes>
+          </HomePageLabel>
         </SearchForm>
+        {this.isLoading()}
         <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br />
       </Layout>
