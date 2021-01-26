@@ -104,10 +104,13 @@ class IndexPage extends Component {
           fieldName === "timings" ? "timing_name" : "category_name"
         const divStyles = {
           display: "inline-block",
+          border: "1px dashed #474747",
+          borderRadius: "15px",
+          margin: "1%",
         }
         return (
-          <div style={divStyles}>
-            <HomePageLabel htmlFor={index}>
+          <div key={index} style={divStyles}>
+            <HomePageLabel key={index} htmlFor={index}>
               {field[nameColumn]}
               <HomePageBox name={index} key={field[nameColumn]} />
             </HomePageLabel>
