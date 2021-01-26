@@ -5,6 +5,7 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Loading from "../components/loading"
+import DateList from "../components/datelist"
 import { getCategories, getDates, getTimings } from "../axios"
 import "../components/index.css"
 
@@ -60,7 +61,13 @@ const HomePageBox = styled.input.attrs({
   border-radius: 50%;
 `
 
-const SearchButton = styled.button`
+const SearchButton = styled.button.attrs({
+  type: "submit",
+  onClick: e => {
+    e.preventDefault()
+    console.log("hi")
+  },
+})`
   color: #99d4c4;
   background-color: #344961;
   font-weight: bold;
@@ -197,6 +204,7 @@ class IndexPage extends Component {
           <SearchButton>Search!</SearchButton>
         </SearchForm>
         {this.isLoading()}
+        <DateList></DateList>
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
       </Layout>
