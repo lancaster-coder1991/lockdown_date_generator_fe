@@ -175,6 +175,10 @@ class IndexPage extends Component {
     })
   }
 
+  renderDateList = () => {
+    return <DateList></DateList>
+  }
+
   render() {
     return (
       <Layout>
@@ -210,7 +214,7 @@ class IndexPage extends Component {
           <SearchButton>Search!</SearchButton>
         </SearchForm>
         {this.isLoading()}
-        <DateList></DateList>
+        {this.renderDateList()}
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
       </Layout>
