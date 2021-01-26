@@ -107,7 +107,7 @@ class IndexPage extends Component {
                 name={index}
                 key={field[nameColumn]}
                 onClick={() => {
-                  this.updateSearchFilters(fieldName)
+                  this.updateSearchFilters(fieldName, field[nameColumn])
                 }}
               />
             </HomePageLabel>
@@ -118,11 +118,40 @@ class IndexPage extends Component {
   }
 
   updateSearchFilters = (type, key) => {
-    //check whether it's a timing or category
-    //check whether the relevant property of state currently has this value included
-    //If not, add it and vice versa
     const stateField = `search${type.slice(0, 1).toUpperCase() + type.slice(1)}`
-    console.log(stateField)
+    if (this.state[stateField].includes(key)) {
+      this.setState(
+        prevState => {
+          return {
+            [stateField]: prevState[stateField].filter(
+              column => column !== key
+            ),
+          }
+        },
+        () => {
+          console.log(
+            `Currently selected ${type} filters: ${this.state[stateField].join(
+              ", "
+            )}`
+          )
+        }
+      )
+    } else {
+      this.setState(
+        prevState => {
+          return {
+            [stateField]: prevState[stateField].concat(key),
+          }
+        },
+        () => {
+          console.log(
+            `Currently selected ${type} filters: ${this.state[stateField].join(
+              ", "
+            )}`
+          )
+        }
+      )
+    }
   }
 
   render() {
