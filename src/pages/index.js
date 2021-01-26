@@ -63,10 +63,6 @@ const HomePageBox = styled.input.attrs({
 
 const SearchButton = styled.button.attrs({
   type: "submit",
-  onClick: e => {
-    e.preventDefault()
-    console.log("hi")
-  },
 })`
   color: #99d4c4;
   background-color: #344961;
@@ -175,10 +171,6 @@ class IndexPage extends Component {
     })
   }
 
-  renderDateList = () => {
-    return <DateList></DateList>
-  }
-
   render() {
     return (
       <Layout>
@@ -211,10 +203,20 @@ class IndexPage extends Component {
               {this.renderSearchBoxes("categories")}
             </div>
           </FormSectionHeading>
-          <SearchButton>Search!</SearchButton>
+          <SearchButton
+            onClick={e => {
+              e.preventDefault()
+            }}
+          >
+            Search!
+          </SearchButton>
         </SearchForm>
         {this.isLoading()}
-        {this.renderDateList()}
+        <DateList
+          searchName={this.state.searchName}
+          searchTimings={this.state.searchTimings}
+          searchCategories={this.state.searchCategories}
+        ></DateList>
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
       </Layout>

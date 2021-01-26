@@ -5,8 +5,13 @@ export default function DateList() {
   const [dates, updateDates] = useState([])
 
   useEffect(() => {
-    getDates()
-  })
+    loadDates()
+    console.log(`Dates loaded on first load of DateList:`, dates)
+  }, [])
+
+  const loadDates = async () => {
+    await getDates().then(response => updateDates(response.data.dates))
+  }
 
   return <div>this is the date list</div>
 }
