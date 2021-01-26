@@ -1,3 +1,7 @@
 input:focus {
   outline: none;
 }
+
+button {
+  font-family: "Hachi Maru Pop";
+}

@@ -60,6 +60,14 @@ const HomePageBox = styled.input.attrs({
   border-radius: 50%;
 `
 
+const SearchButton = styled.button`
+  color: #99d4c4;
+  background-color: #344961;
+  font-weight: bold;
+  border-radius: 15px;
+  width: 40%;
+`
+
 class IndexPage extends Component {
   state = {
     dates: [],
@@ -186,6 +194,7 @@ class IndexPage extends Component {
               {this.renderSearchBoxes("categories")}
             </div>
           </FormSectionHeading>
+          <SearchButton>Search!</SearchButton>
         </SearchForm>
         {this.isLoading()}
         <Link to="/page-2/">Go to page 2</Link> <br />
