@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import { Link } from "gatsby"
+// import { Link } from "gatsby"
 import styled from "styled-components"
 
 import Layout from "../components/layout"
@@ -169,6 +169,12 @@ class IndexPage extends Component {
     }
   }
 
+  updateSearchName = e => {
+    this.setState({ searchName: e.target.value }, () => {
+      console.log(`Current searchName value: ${this.state.searchName}`)
+    })
+  }
+
   render() {
     return (
       <Layout>
@@ -185,7 +191,7 @@ class IndexPage extends Component {
         <SearchForm>
           <FormSectionHeading>
             Filter by Name
-            <NameSearch></NameSearch>
+            <NameSearch onChange={this.updateSearchName}></NameSearch>
           </FormSectionHeading>
           <FormSectionHeading>
             Filter by Timing
