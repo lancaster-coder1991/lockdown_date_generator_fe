@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { getDates } from "../axios"
 
-export default function DateList() {
+export default function DateList(props) {
   const [dates, updateDates] = useState([])
 
   useEffect(() => {
@@ -12,6 +12,8 @@ export default function DateList() {
   const loadDates = async () => {
     await getDates().then(response => updateDates(response.data.dates))
   }
+
+  console.log(props)
 
   return <div>this is the date list</div>
 }

@@ -80,6 +80,7 @@ class IndexPage extends Component {
     searchTimings: [],
     searchCategories: [],
     isLoading: true,
+    searching: false,
   }
 
   componentDidMount() {
@@ -171,6 +172,18 @@ class IndexPage extends Component {
     })
   }
 
+  renderDateList = (name, timings, categories) => {
+    if (this.state.searching) {
+      return (
+        <DateList
+          searchName={name}
+          searchTimings={timings}
+          searchCategories={categories}
+        ></DateList>
+      )
+    }
+  }
+
   render() {
     return (
       <Layout>
@@ -206,17 +219,20 @@ class IndexPage extends Component {
           <SearchButton
             onClick={e => {
               e.preventDefault()
+              this.setState({ searching: true }, () => {
+                this.setState({ searching: false })
+              })
             }}
           >
             Search!
           </SearchButton>
         </SearchForm>
         {this.isLoading()}
-        <DateList
-          searchName={this.state.searchName}
-          searchTimings={this.state.searchTimings}
-          searchCategories={this.state.searchCategories}
-        ></DateList>
+        {this.renderDateList(
+          this.state.searchName,
+          this.state.searchTimings,
+          this.state.searchCategories
+        )}
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
       </Layout>
