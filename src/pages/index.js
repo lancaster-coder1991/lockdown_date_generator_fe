@@ -70,27 +70,16 @@ class IndexPage extends Component {
   }
 
   componentDidMount() {
-    getDates()
-      .then(dates => {
-        this.setState({ dates: dates.data.dates }, () => {
-          console.log(this.state.dates)
-        })
-      })
-      .then(() => {
-        return getTimings()
-      })
-      .then(timings => {
-        this.setState({ timings: timings.data.timings })
-      })
-      .then(() => {
-        return getCategories()
-      })
-      .then(categories => {
+    Promise.all([getDates(), getTimings(), getCategories()]).then(
+      responseArr => {
         this.setState({
-          categories: categories.data.categories,
+          dates: responseArr[0].data.dates,
+          timings: responseArr[1].data.timings,
+          categories: responseArr[2].data.categories,
           isLoading: false,
         })
-      })
+      }
+    )
   }
 
   isLoading = () => {
