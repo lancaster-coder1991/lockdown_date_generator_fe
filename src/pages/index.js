@@ -63,6 +63,8 @@ const HomePageBox = styled.input.attrs({
 class IndexPage extends Component {
   state = {
     dates: [],
+    timings: [],
+    categories: [],
     searchName: "",
     searchTimings: [],
     searchCategories: [],
@@ -101,12 +103,26 @@ class IndexPage extends Component {
           <div key={index} style={divStyles}>
             <HomePageLabel key={index} htmlFor={index}>
               {field[nameColumn]}
-              <HomePageBox name={index} key={field[nameColumn]} />
+              <HomePageBox
+                name={index}
+                key={field[nameColumn]}
+                onClick={() => {
+                  this.updateSearchFilters(fieldName)
+                }}
+              />
             </HomePageLabel>
           </div>
         )
       })
     }
+  }
+
+  updateSearchFilters = (type, key) => {
+    //check whether it's a timing or category
+    //check whether the relevant property of state currently has this value included
+    //If not, add it and vice versa
+    const stateField = `search${type.slice(0, 1).toUpperCase() + type.slice(1)}`
+    console.log(stateField)
   }
 
   render() {
