@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "styled-components"
-import { getCategories, getDates, getTimings } from "../axios"
+import { getCategories, getTimings } from "../axios"
 
 const FormSectionHeading = styled.div`
   width: 100%;
@@ -99,17 +99,19 @@ export default function SearchForm(props) {
     }
   }
 
-  const updateSearchName = e => setName(e.target.value)
+  const updateSearchName = e => {
+    setName(e.target.value)
+  }
 
   const updateSearchFilters = (type, key) => {
     const stateField = type === "timings" ? searchTimings : searchCategories
     if (stateField.includes(key)) {
       if (type === "timings")
-        setTimings(timings.filter(column => column !== key))
-      else setCategories(categories.filter(column => column !== key))
+        setTimings(searchTimings.filter(column => column !== key))
+      else setCategories(searchCategories.filter(column => column !== key))
     } else {
-      if (type === "timings") setTimings(timings.concat(key))
-      else setCategories(categories.concat(key))
+      if (type === "timings") setTimings(searchTimings.concat(key))
+      else setCategories(searchCategories.concat(key))
     }
   }
 
