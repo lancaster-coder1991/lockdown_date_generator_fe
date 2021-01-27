@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 
 const FormSectionHeading = styled.div`
@@ -47,18 +47,24 @@ const SearchButton = styled.button.attrs({
   width: 40%;
 `
 
-// const SearchForm = styled.form`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-evenly;
-//   align-items: center;
-//   width: 100%;
-// `
+const MainForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+`
 
 export default function SearchForm(props) {
+  const [timings, addTimings] = useState([])
+  const [categories, addCategories] = useState([])
+  const [searchName, setName] = useState("")
+  const [searchTimings, setTimings] = useState([])
+  const [searchCategories, setCategories] = useState([])
+
   const renderSearchBoxes = fieldName => {
     if (!props.isLoading) {
-      return this.state[fieldName].map((field, index) => {
+      return [fieldName].map((field, index) => {
         const nameColumn =
           fieldName === "timings" ? "timing_name" : "category_name"
         const divStyles = {
@@ -75,7 +81,7 @@ export default function SearchForm(props) {
                 name={index}
                 key={field[nameColumn]}
                 onClick={() => {
-                  this.updateSearchFilters(fieldName, field[nameColumn])
+                  updateSearchFilters(fieldName, field[nameColumn])
                 }}
               />
             </HomePageLabel>
@@ -85,14 +91,22 @@ export default function SearchForm(props) {
     }
   }
 
-  const updateSearchName = e => {
-    this.setState({ searchName: e.target.value }, () => {
-      console.log(`Current searchName value: ${this.state.searchName}`)
-    })
+  const updateSearchName = e => setName(e.target.value)
+
+  const updateSearchFilters = (type, key) => {
+    const stateField = type === "timings" ? searchTimings : searchCategories
+    if (stateField.includes(key)) {
+      if (type === "timings")
+        setTimings(timings.filter(column => column !== key))
+      else setCategories(categories.filter(column => column !== key))
+    } else {
+      if (type === "timings") setTimings(timings.concat(key))
+      else setCategories(categories.concat(key))
+    }
   }
 
   return (
-    <div>
+    <MainForm>
       <FormSectionHeading>
         Filter by Name
         <NameSearch onChange={updateSearchName}></NameSearch>
@@ -105,20 +119,18 @@ export default function SearchForm(props) {
       <FormSectionHeading>
         Filter by Category
         <br />
-        <div style={{ marginTop: 7 }}>
-          {this.renderSearchBoxes("categories")}
-        </div>
+        <div style={{ marginTop: 7 }}>{renderSearchBoxes("categories")}</div>
       </FormSectionHeading>
       <SearchButton
-        onClick={e => {
-          e.preventDefault()
-          this.setState({ searching: true }, () => {
-            this.setState({ searching: false })
-          })
-        }}
+      // onClick={e => {
+      //   e.preventDefault()
+      //   this.setState({ searching: true }, () => {
+      //     this.setState({ searching: false })
+      //   })
+      // }}
       >
         Search!
       </SearchButton>
-    </div>
+    </MainForm>
   )
 }
