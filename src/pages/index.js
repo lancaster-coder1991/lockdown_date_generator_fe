@@ -46,43 +46,6 @@ class IndexPage extends Component {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
-  updateSearchFilters = (type, key) => {
-    const stateField = `search${type.slice(0, 1).toUpperCase() + type.slice(1)}`
-    if (this.state[stateField].includes(key)) {
-      this.setState(
-        prevState => {
-          return {
-            [stateField]: prevState[stateField].filter(
-              column => column !== key
-            ),
-          }
-        },
-        () => {
-          console.log(
-            `Currently selected ${type} filters: ${this.state[stateField].join(
-              ", "
-            )}`
-          )
-        }
-      )
-    } else {
-      this.setState(
-        prevState => {
-          return {
-            [stateField]: prevState[stateField].concat(key),
-          }
-        },
-        () => {
-          console.log(
-            `Currently selected ${type} filters: ${this.state[stateField].join(
-              ", "
-            )}`
-          )
-        }
-      )
-    }
-  }
-
   render() {
     return (
       <Layout>

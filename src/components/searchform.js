@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { getCategories, getDates, getTimings } from "../axios"
 
@@ -57,22 +57,18 @@ const MainForm = styled.form`
 `
 
 export default function SearchForm(props) {
-  const [timings, addTimings] = useState([])
-  const [categories, addCategories] = useState([])
+  const [timings, addTimings] = useState()
+  const [categories, addCategories] = useState()
   const [searchName, setName] = useState("")
   const [searchTimings, setTimings] = useState([])
   const [searchCategories, setCategories] = useState([])
 
   useEffect(() => {
-    if (!timings.length || !categories.length) {
-      Promise.all([getTimings(), getCategories()]).then(responseArr => {
-        addTimings(responseArr[0].data.timings)
-        addCategories(responseArr[1].data.categories)
-      })
-    }
+    Promise.all([getTimings(), getCategories()]).then(responseArr => {
+      addTimings(responseArr[0].data.timings)
+      addCategories(responseArr[1].data.categories)
+    })
   }, [])
-
-  console.log(timings)
 
   const renderSearchBoxes = fieldName => {
     if (!props.isLoading) {
