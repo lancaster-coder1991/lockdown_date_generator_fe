@@ -70,11 +70,11 @@ export default function SearchForm(props) {
     })
   }, [])
 
-  const renderSearchBoxes = fieldName => {
-    if (!props.isLoading) {
-      return [fieldName].map((field, index) => {
+  const renderSearchBoxes = stateFieldObj => {
+    if (!props.isLoading && stateFieldObj.value) {
+      return stateFieldObj.value.map((field, index) => {
         const nameColumn =
-          fieldName === "timings" ? "timing_name" : "category_name"
+          stateFieldObj.name === "timings" ? "timing_name" : "category_name"
         const divStyles = {
           display: "inline-block",
           border: "1px dashed #474747",
@@ -89,7 +89,7 @@ export default function SearchForm(props) {
                 name={index}
                 key={field[nameColumn]}
                 onClick={() => {
-                  updateSearchFilters(fieldName, field[nameColumn])
+                  updateSearchFilters(stateFieldObj.name, field[nameColumn])
                 }}
               />
             </HomePageLabel>
@@ -122,12 +122,16 @@ export default function SearchForm(props) {
       <FormSectionHeading>
         Filter by Timing
         <br />
-        <div style={{ marginTop: 7 }}>{renderSearchBoxes("timings")}</div>
+        <div style={{ marginTop: 7 }}>
+          {renderSearchBoxes({ name: "timings", value: timings })}
+        </div>
       </FormSectionHeading>
       <FormSectionHeading>
         Filter by Category
         <br />
-        <div style={{ marginTop: 7 }}>{renderSearchBoxes("categories")}</div>
+        <div style={{ marginTop: 7 }}>
+          {renderSearchBoxes({ name: "categories", value: categories })}
+        </div>
       </FormSectionHeading>
       <SearchButton
       // onClick={e => {
