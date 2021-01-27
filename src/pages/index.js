@@ -6,7 +6,7 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Loading from "../components/loading"
 import SearchForm from "../components/searchform"
-import { getCategories, getDates, getTimings } from "../axios"
+import { getDates } from "../axios"
 import "../components/index.css"
 
 const HomePara = styled.p`
@@ -30,16 +30,12 @@ class IndexPage extends Component {
   }
 
   componentDidMount() {
-    Promise.all([getDates(), getTimings(), getCategories()]).then(
-      responseArr => {
-        this.setState({
-          dates: responseArr[0].data.dates,
-          timings: responseArr[1].data.timings,
-          categories: responseArr[2].data.categories,
-          isLoading: false,
-        })
-      }
-    )
+    getDates().then(({ data: { dates } }) => {
+      this.setState({
+        dates,
+        isLoading: false,
+      })
+    })
   }
 
   isLoading = () => {
@@ -70,9 +66,7 @@ class IndexPage extends Component {
 
 export default IndexPage
 
-//refactor this code:
-//scrap datelist component
-//move search form into its own component and pass the update search fields method to the new component
+//test passing update dates method to search form and updating state in index.js with new dates
 //add date card component
 //when hit search, run getDates method here and update dates property of state with new values
 //create a render dates method that maps over the dates property of state and creates a new datecard for each
