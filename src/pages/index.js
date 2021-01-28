@@ -20,11 +20,6 @@ const HomeTitle = styled.h2`
 class IndexPage extends Component {
   state = {
     dates: [],
-    timings: [],
-    categories: [],
-    searchName: "",
-    searchTimings: [],
-    searchCategories: [],
     isLoading: true,
     searching: false,
   }
@@ -40,6 +35,17 @@ class IndexPage extends Component {
 
   isLoading = () => {
     if (this.state.isLoading) return <Loading></Loading>
+  }
+
+  updateDates = (name, timings, categories) => {
+    this.setState({ isLoading: true }, () => {
+      getDates(name, timings, categories).then(({ data: { dates } }) => {
+        this.setState({
+          dates,
+          isLoading: false,
+        })
+      })
+    })
   }
 
   render() {
