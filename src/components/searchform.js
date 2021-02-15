@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import { getCategories, getTimings } from "../axios"
 
+const MainForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+`
+
 const FormSectionHeading = styled.div`
   width: 100%;
   text-align: center;
@@ -46,14 +54,6 @@ const SearchButton = styled.button.attrs({
   font-weight: bold;
   border-radius: 15px;
   width: 40%;
-`
-
-const MainForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
 `
 
 export default function SearchForm(props) {
@@ -136,12 +136,10 @@ export default function SearchForm(props) {
         </div>
       </FormSectionHeading>
       <SearchButton
-      // onClick={e => {
-      //   e.preventDefault()
-      //   this.setState({ searching: true }, () => {
-      //     this.setState({ searching: false })
-      //   })
-      // }}
+        onClick={e => {
+          e.preventDefault()
+          props.updateDates()
+        }}
       >
         Search!
       </SearchButton>

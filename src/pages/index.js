@@ -37,13 +37,18 @@ class IndexPage extends Component {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
-  updateDates = (name, timings, categories) => {
+  updateDates = (timings, categories) => {
     this.setState({ isLoading: true }, () => {
       getDates(name, timings, categories).then(({ data: { dates } }) => {
-        this.setState({
-          dates,
-          isLoading: false,
-        })
+        this.setState(
+          {
+            dates,
+            isLoading: false,
+          },
+          () => {
+            console.log(this.state.dates)
+          }
+        )
       })
     })
   }
@@ -61,7 +66,10 @@ class IndexPage extends Component {
           Simply browse the selection below or use our search form to find your
           perfect date :)
         </HomePara>
-        <SearchForm isLoading={this.state.isLoading}></SearchForm>
+        <SearchForm
+          isLoading={this.state.isLoading}
+          updateDates={this.updateDates}
+        ></SearchForm>
         {this.isLoading()}
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
