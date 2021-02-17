@@ -20,6 +20,7 @@ const HomeTitle = styled.h2`
 class IndexPage extends Component {
   state = {
     dates: [],
+    filteredDates: [],
     isLoading: true,
     searching: false,
   }
@@ -60,12 +61,12 @@ class IndexPage extends Component {
             )
           })
           return {
-            dates: newDates,
+            filteredDates: newDates,
             isLoading: false,
           }
         },
         () => {
-          console.log("dates now in state: ", this.state.dates)
+          console.log("dates now in state: ", this.state.filteredDates)
         }
       )
     })
