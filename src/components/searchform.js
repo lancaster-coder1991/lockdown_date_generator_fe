@@ -46,9 +46,7 @@ const HomePageBox = styled.input.attrs({
   border-radius: 50%;
 `
 
-const SearchButton = styled.button.attrs({
-  type: "submit",
-})`
+const SearchButton = styled.button`
   color: #99d4c4;
   background-color: #344961;
   font-weight: bold;
@@ -81,6 +79,11 @@ export default function SearchForm(props) {
           borderRadius: "15px",
           margin: "1%",
         }
+        const preCheckBox = stateFieldObj.stateSearchFilter.includes(
+          field[nameColumn]
+        )
+          ? "checked"
+          : ""
         return (
           <div key={index} style={divStyles}>
             <HomePageLabel key={index} htmlFor={index}>
@@ -88,6 +91,7 @@ export default function SearchForm(props) {
               <HomePageBox
                 name={index}
                 key={field[nameColumn]}
+                defaultChecked={preCheckBox}
                 onClick={() => {
                   updateSearchFilters(stateFieldObj.name, field[nameColumn])
                 }}
@@ -104,6 +108,7 @@ export default function SearchForm(props) {
   }
 
   const updateSearchFilters = (type, key) => {
+    console.log(`Adding ${key} to ${type} search array`)
     const stateField = type === "timings" ? searchTimings : searchCategories
     if (stateField.includes(key)) {
       if (type === "timings")
@@ -125,14 +130,22 @@ export default function SearchForm(props) {
         Filter by Timing
         <br />
         <div style={{ marginTop: 7 }}>
-          {renderSearchBoxes({ name: "timings", value: timings })}
+          {renderSearchBoxes({
+            name: "timings",
+            value: timings,
+            stateSearchFilter: searchTimings,
+          })}
         </div>
       </FormSectionHeading>
       <FormSectionHeading>
         Filter by Category
         <br />
         <div style={{ marginTop: 7 }}>
-          {renderSearchBoxes({ name: "categories", value: categories })}
+          {renderSearchBoxes({
+            name: "categories",
+            value: categories,
+            stateSearchFilter: searchCategories,
+          })}
         </div>
       </FormSectionHeading>
       <SearchButton
