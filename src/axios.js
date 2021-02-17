@@ -4,13 +4,8 @@ const instance = axios.create({
   baseURL: "https://lockdown-date-server.herokuapp.com/api",
 })
 
-export const getDates = (timings, categories) => {
-  return instance.get("/dates", {
-    params: {
-      timings: timings,
-      categories: categories,
-    },
-  })
+export const getDates = () => {
+  return instance.get("/dates")
 }
 
 export const getTimings = () => {

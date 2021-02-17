@@ -26,10 +26,18 @@ class IndexPage extends Component {
 
   componentDidMount() {
     getDates().then(({ data: { dates } }) => {
-      this.setState({
-        dates,
-        isLoading: false,
-      })
+      this.setState(
+        {
+          dates,
+          isLoading: false,
+        },
+        () => {
+          console.log(
+            "loaded dates and associated relations: ",
+            this.state.dates
+          )
+        }
+      )
     })
   }
 
@@ -37,19 +45,29 @@ class IndexPage extends Component {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
-  updateDates = (timings, categories) => {
+  updateDates = (name, timings, categories) => {
+    console.log(
+      `Filtering dates based on name: ${name}, timings: ${timings}, categories: ${categories}`
+    )
     this.setState({ isLoading: true }, () => {
-      getDates(name, timings, categories).then(({ data: { dates } }) => {
-        this.setState(
-          {
-            dates,
+      this.setState(
+        prevState => {
+          const newDates = prevState.dates.filter(date => {
+            return (
+              date.date_name.includes(name) &&
+              timings.includes(date.timing_name) &&
+              categories.includes(date.category_name)
+            )
+          })
+          return {
+            dates: newDates,
             isLoading: false,
-          },
-          () => {
-            console.log(this.state.dates)
           }
-        )
-      })
+        },
+        () => {
+          console.log("dates now in state: ", this.state.dates)
+        }
+      )
     })
   }
 

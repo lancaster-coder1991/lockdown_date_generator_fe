@@ -138,7 +138,7 @@ export default function SearchForm(props) {
       <SearchButton
         onClick={e => {
           e.preventDefault()
-          props.updateDates()
+          props.updateDates(searchName, searchTimings, searchCategories)
         }}
       >
         Search!
