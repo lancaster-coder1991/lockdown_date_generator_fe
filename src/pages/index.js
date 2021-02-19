@@ -5,8 +5,8 @@ import styled from "styled-components"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import Loading from "../components/loading"
-import DateList from "../components/datelist"
-import { getCategories, getDates, getTimings } from "../axios"
+import SearchForm from "../components/searchform"
+import { getDates } from "../axios"
 import "../components/index.css"
 
 const HomePara = styled.p`
@@ -17,171 +17,49 @@ const HomeTitle = styled.h2`
   text-align: center;
 `
 
-const SearchForm = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 100%;
-`
-
-const FormSectionHeading = styled.div`
-  width: 100%;
-  text-align: center;
-  font-weight: bold;
-  margin-bottom: 5%;
-`
-
-const NameSearch = styled.input.attrs({
-  placeholder: "Search by name",
-})`
-  border-radius: 25px;
-  font-size: 0.8rem;
-  width: 70%;
-  text-align: center;
-  margin-bottom: 3%;
-  margin-top: 3%;
-`
-
-const HomePageLabel = styled.label`
-  font-size: 0.8rem;
-  width: 100%;
-  text-align: center;
-  margin-bottom: 3%;
-  margin-top: 3%;
-  font-weight: normal;
-  page-break-inside: avoid;
-`
-
-const HomePageBox = styled.input.attrs({
-  type: "checkbox",
-})`
-  margin-left: 3%;
-  margin-right: 5%;
-  border-radius: 50%;
-`
-
-const SearchButton = styled.button.attrs({
-  type: "submit",
-})`
-  color: #99d4c4;
-  background-color: #344961;
-  font-weight: bold;
-  border-radius: 15px;
-  width: 40%;
-`
-
 class IndexPage extends Component {
   state = {
     dates: [],
-    timings: [],
-    categories: [],
-    searchName: "",
-    searchTimings: [],
-    searchCategories: [],
+    filteredDates: [],
     isLoading: true,
     searching: false,
   }
 
   componentDidMount() {
-    Promise.all([getDates(), getTimings(), getCategories()]).then(
-      responseArr => {
-        this.setState({
-          dates: responseArr[0].data.dates,
-          timings: responseArr[1].data.timings,
-          categories: responseArr[2].data.categories,
+    getDates("", "", "").then(({ data: { dates } }) => {
+      this.setState(
+        {
+          dates,
           isLoading: false,
-        })
-      }
-    )
+        },
+        () => {
+          console.log(
+            "loaded dates and associated relations: ",
+            this.state.dates
+          )
+        }
+      )
+    })
   }
 
   isLoading = () => {
     if (this.state.isLoading) return <Loading></Loading>
   }
 
-  renderSearchBoxes = fieldName => {
-    if (!this.state.isLoading) {
-      return this.state[fieldName].map((field, index) => {
-        const nameColumn =
-          fieldName === "timings" ? "timing_name" : "category_name"
-        const divStyles = {
-          display: "inline-block",
-          border: "1px dashed #474747",
-          borderRadius: "15px",
-          margin: "1%",
-        }
-        return (
-          <div key={index} style={divStyles}>
-            <HomePageLabel key={index} htmlFor={index}>
-              {field[nameColumn]}
-              <HomePageBox
-                name={index}
-                key={field[nameColumn]}
-                onClick={() => {
-                  this.updateSearchFilters(fieldName, field[nameColumn])
-                }}
-              />
-            </HomePageLabel>
-          </div>
+  updateDates = (name, timings, categories) => {
+    console.log(
+      `Filtering dates based on name: ${name}, timings: ${timings}, categories: ${categories}`
+    )
+    this.setState({ isLoading: true }, () => {
+      getDates(name, timings, categories).then(res => {
+        this.setState(
+          { filteredDates: res.data.dates, isLoading: false },
+          () => {
+            console.log(this.state.filteredDates)
+          }
         )
       })
-    }
-  }
-
-  updateSearchFilters = (type, key) => {
-    const stateField = `search${type.slice(0, 1).toUpperCase() + type.slice(1)}`
-    if (this.state[stateField].includes(key)) {
-      this.setState(
-        prevState => {
-          return {
-            [stateField]: prevState[stateField].filter(
-              column => column !== key
-            ),
-          }
-        },
-        () => {
-          console.log(
-            `Currently selected ${type} filters: ${this.state[stateField].join(
-              ", "
-            )}`
-          )
-        }
-      )
-    } else {
-      this.setState(
-        prevState => {
-          return {
-            [stateField]: prevState[stateField].concat(key),
-          }
-        },
-        () => {
-          console.log(
-            `Currently selected ${type} filters: ${this.state[stateField].join(
-              ", "
-            )}`
-          )
-        }
-      )
-    }
-  }
-
-  updateSearchName = e => {
-    this.setState({ searchName: e.target.value }, () => {
-      console.log(`Current searchName value: ${this.state.searchName}`)
     })
-  }
-
-  renderDateList = (name, timings, categories) => {
-    if (this.state.searching) {
-      return (
-        <DateList
-          searchName={name}
-          searchTimings={timings}
-          searchCategories={categories}
-        ></DateList>
-      )
-    }
   }
 
   render() {
@@ -197,42 +75,11 @@ class IndexPage extends Component {
           Simply browse the selection below or use our search form to find your
           perfect date :)
         </HomePara>
-        <SearchForm>
-          <FormSectionHeading>
-            Filter by Name
-            <NameSearch onChange={this.updateSearchName}></NameSearch>
-          </FormSectionHeading>
-          <FormSectionHeading>
-            Filter by Timing
-            <br />
-            <div style={{ marginTop: 7 }}>
-              {this.renderSearchBoxes("timings")}
-            </div>
-          </FormSectionHeading>
-          <FormSectionHeading>
-            Filter by Category
-            <br />
-            <div style={{ marginTop: 7 }}>
-              {this.renderSearchBoxes("categories")}
-            </div>
-          </FormSectionHeading>
-          <SearchButton
-            onClick={e => {
-              e.preventDefault()
-              this.setState({ searching: true }, () => {
-                this.setState({ searching: false })
-              })
-            }}
-          >
-            Search!
-          </SearchButton>
-        </SearchForm>
+        <SearchForm
+          isLoading={this.state.isLoading}
+          updateDates={this.updateDates}
+        ></SearchForm>
         {this.isLoading()}
-        {this.renderDateList(
-          this.state.searchName,
-          this.state.searchTimings,
-          this.state.searchCategories
-        )}
         {/* <Link to="/page-2/">Go to page 2</Link> <br />
         <Link to="/using-typescript/">Go to "Using TypeScript"</Link> <br /> */}
       </Layout>
@@ -241,3 +88,8 @@ class IndexPage extends Component {
 }
 
 export default IndexPage
+
+//test passing update dates method to search form and updating state in index.js with new dates
+//add date card component
+//when hit search, run getDates method here and update dates property of state with new values
+//create a render dates method that maps over the dates property of state and creates a new datecard for each
