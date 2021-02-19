@@ -26,7 +26,7 @@ class IndexPage extends Component {
   }
 
   componentDidMount() {
-    getDates("", "", "").then(({ data: { dates } }) => {
+    getDates("", [], []).then(({ data: { dates } }) => {
       this.setState(
         {
           dates,
@@ -47,6 +47,7 @@ class IndexPage extends Component {
   }
 
   updateDates = (name, timings, categories) => {
+    console.log(typeof name)
     console.log(
       `Filtering dates based on name: ${name}, timings: ${timings}, categories: ${categories}`
     )

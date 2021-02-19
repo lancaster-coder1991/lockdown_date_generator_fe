@@ -6,7 +6,9 @@ const instance = axios.create({
 
 export const getDates = (name, timings, categories) => {
   return instance.get(
-    `/dates?name=${name}&timings=${timings}&categories=${categories}`
+    `/dates?name=${name}${timings
+      .map(timing => `&timings=${timing}`)
+      .join("")}${categories.map(category => `&categories=${category}`)}`
   )
 }
 
