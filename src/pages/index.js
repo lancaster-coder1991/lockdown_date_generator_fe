@@ -22,7 +22,7 @@ class IndexPage extends Component {
     dates: [],
     filteredDates: [],
     isLoading: true,
-    searching: false,
+    hasSearched: false,
   }
 
   componentDidMount() {

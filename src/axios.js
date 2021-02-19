@@ -8,7 +8,9 @@ export const getDates = (name, timings, categories) => {
   return instance.get(
     `/dates?name=${name}${timings
       .map(timing => `&timings=${timing}`)
-      .join("")}${categories.map(category => `&categories=${category}`)}`
+      .join("")}${categories
+      .map(category => `&categories=${category}`)
+      .join("")}`
   )
 }
 
