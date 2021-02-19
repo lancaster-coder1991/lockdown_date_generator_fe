@@ -14,11 +14,31 @@ const SearchCardName = styled.div`
   margin-bottom: 5%;
 `
 
+const SearchCardTag = styled.span`
+  text-align: left;
+`
+
 export default function SearchResult(props) {
   const { result, allDates } = props
+  const allTimings = [...new Set(allDates.map(date => date.timing_name))].join(
+    ", "
+  )
+  const allCategories = [
+    ...new Set(allDates.map(date => date.category_name)),
+  ].join(", ")
+
   return (
     <SearchCard>
       <SearchCardName>{result.date_name}</SearchCardName>
+      {/* <span>Timings: {renderTags(allTimings)}</span>
+
+      <span>Categories: {renderTags(allCategories)} </span> */}
+      <span>
+        <b>Suggested Timings:</b> {allTimings}
+      </span>
+      <span>
+        <b>Categories:</b> {allCategories}
+      </span>
     </SearchCard>
   )
 }
